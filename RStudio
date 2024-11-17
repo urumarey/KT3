@@ -1,0 +1,45 @@
+install.packages("rpivotTable")
+library(rpivotTable)
+D <- read.csv("https://github.com/junaart/ForStudents/blob/master/R/Lesson_2/data_1.csv")
+View(D)
+install.packages("readxl")
+library(readxl)
+R<-read_excel("problems_1.xlsx")
+View(R)
+sum(as.numeric(R$TotalAmount))
+S<-data.frame(R$AdmArea,R$Month,as.numeric(R$Year),as.numeric(R$TotalAmount))
+colnames(S)<-c("AdmArea","Month","Year","TotalAmount")
+View(S)
+rpivotTable::rpivotTable(S, rows="Year", cols="AdmArea", aggregatorName = "Average", vals="TotalAmount")
+
+
+
+P<-data.frame(S$TotalAmount[(S$Year==2021)],
+           S$Month[(S$Year==2021)],
+           S$AdmArea[(S$Year==2021)],
+           S$Year[S$Year==2021])
+colnames(P)<-c("TotalAmount","Month","AdmArea","Year")
+View(P)
+rpivotTable::rpivotTable(P, rows="Month", cols = "Year", aggregatorName = "Count", vals="TotalAmount")
+
+R<-read_excel("problems_1.xlsx")
+View(R)
+sum(as.numeric(R$TotalAmount))
+S<-data.frame(R$AdmArea,R$Month,as.numeric(R$Year),as.numeric(R$TotalAmount))
+colnames(S)<-c("AdmArea","Month","Year","TotalAmount")
+View(S)
+rpivotTable::rpivotTable(S, rows="AdmArea", cols="Year", aggregatorName = "Average", vals="TotalAmount")
+
+
+S$AdmArea[S$AdmArea=="Центральный административный округ"]
+
+#2
+M<-data.frame(S$AdmArea[S$AdmArea=="Центральный административный округ"],
+              S$Month[S$AdmArea=="Центральный административный округ"],
+              S$Year[S$AdmArea=="Центральный административный округ"],
+              S$TotalAmount[S$AdmArea=="Центральный административный округ"])
+colnames(M)<-c("AdmArea","Month","Year","TotalAmount")
+View(M)
+
+#3
+rpivotTable::rpivotTable(M, rows="Month", cols="Year", aggregatorName = "Median", vals="TotalAmount")
